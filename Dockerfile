@@ -1,17 +1,18 @@
-# Use an official Python runtime as a parent image
-FROM python:3.8-slim
+FROM python:3.10.6-bullseye
+ENV DEBIAN_FRONTEND=noninteractive \
+    PYTHONUNBUFFERED=1 \
+    PYTHONIOENCODING=UTF-8
+WORKDIR /sdtemp
+RUN python -m pip install --upgrade pip wheel
+RUN apt-get update &&\
+    apt-get install -y wget git
+RUN git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui /sdtemp
 
-# Set the working directory in the container
-WORKDIR /app
+#torch and torchvision version number refer to
+#https://github.com/AUTOMATIC1111/stable-diffusion-webui/blob/master/launch.py
+ENV TORCH_COMMAND="pip install torch==1.12.1+cpu torchvision==0.13.1+cpu --extra-index-url https://download.pytorch.org/whl/cpu"
+RUN python -m $TORCH_COMMAND
 
-# Install any needed packages specified in requirements
-RUN pip install --no-cache-dir torch==1.13.1 transformers==4.23.1 diffusers==0.9.0 numpy Pillow
-
-# Copy the current directory contents into the container at /app
-COPY . /app/
-
-# Set environment variables for Stable Diffusion
-ENV PYTHONUNBUFFERED=1
-
-# Run Stable Diffusion (replace with your actual entry point command)
-CMD ["python", "scripts/stable_diffusion.py"]
+RUN python launch.py --skip-torch-cuda-test --exit
+RUN python -m pip install opencv-python-headless
+WORKDIR /stablediff-web
