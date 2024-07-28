@@ -1,3 +1,4 @@
+
 version: '3'
 
 services:
@@ -24,4 +25,6 @@ services:
     ports:
       - "7860:7860"
     volumes:
+      - C:/docker/stable-diffusion/stablediff-models:/stablediff-models
+      - C:/docker/stable-diffusion/stablediff-web:/stablediff-web
       - ./stablediff.env:/stablediff.env
