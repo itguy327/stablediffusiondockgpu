@@ -1,7 +1,8 @@
----
+version: '3'
+
 services:
   stablediff-cpu:
-    build: 
+    build:
       context: .
       dockerfile: Dockerfile.cpu
     container_name: stablediff-cpu-runner
@@ -24,5 +25,3 @@ services:
       - "7860:7860"
     volumes:
       - ./stablediff.env:/stablediff.env
-      - C:/docker/stable-diffusion/stablediff-web:/stablediff-web
-      - C:/docker/stable-diffusion:/stablediff-web/models/Stable-diffusion
