@@ -4,7 +4,7 @@ services:
   stable-diffusion:
     build:
       context: . # This refers to the repository root
-      dockerfile: cpu.dockerfile # Name of the Dockerfile
+      dockerfile: Dockerfile # Name of the Dockerfile
     container_name: stable-diffusion
     command: python /app/scripts/stable_diffusion.py
     volumes:
