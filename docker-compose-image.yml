@@ -1,3 +1,5 @@
+#CPKT Models
+#https://huggingface.co/stabilityai/stable-diffusion-2-1-base
 services:
   stablediff-cuda:
     image: stablediffusiondockgpu-stablediff-cuda:latest
