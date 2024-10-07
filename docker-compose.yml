@@ -2,14 +2,14 @@
 version: '3'
 
 services:
-  stablediff-cpu:
+  stablediff-gpu:
     build:
       context: .
-      dockerfile: Dockerfile.cpu
-    container_name: stablediff-cpu-runner
+      dockerfile: Dockerfile.gpu
+    container_name: stablediff-gpu-runner
     environment:
       TZ: "Asia/Jakarta"
-      COMMANDLINE_ARGS: "--listen --no-half --skip-torch-cuda-test"
+      COMMANDLINE_ARGS: "--listen --lowvram"
     entrypoint: ["/bin/sh", "-c"]
     command: >
       ". /stablediff.env; echo launch.py $$COMMANDLINE_ARGS;
