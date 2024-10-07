@@ -1,0 +1,38 @@
+services:
+  stablediff-cuda:
+    image: stablediffusiondockgpu-stablediff-cuda:latest
+    container_name: stablediff-cuda-runner
+    restart: unless-stopped
+    runtime: nvidia
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    environment:
+      TZ: "America/New_York"
+      NVIDIA_VISIBLE_DEVICES: all
+      COMMANDLINE_ARGS: "--listen"
+    entrypoint: ["/bin/sh", "-c"]
+    command: >
+      "nvidia-smi; . /stablediff.env; echo launch.py $$COMMANDLINE_ARGS;
+      if [ ! -d /stablediff-web/.git ]; then
+        cp -a /sdtemp/. /stablediff-web/
+      fi;
+      if [ ! -f /stablediff-web/models/Stable-diffusion/*.ckpt ]; then
+        echo 'Please copy stable diffusion model to stablediff-models directory'
+        echo 'You may need sudo to perform this action'
+        exit 1
+      fi;
+      python3 launch.py"
+    ports:
+      - "192.168.0.16:7860:7860"
+    volumes:
+      - /home/stable-diffusion/stablediff.env:/stablediff.env
+      - /home/stable-diffusion/stablediff-web:/stablediff-web
+      - /home/stable-diffusion/stablediff-models:/stablediff-web/models/Stable-diffusion
+#      - ./controlnet-models:/stablediff-web/models/ControlNet
+#      - ./lora-models:/stablediff-web/models/Lora
+#      - ./outputs:/stablediff-web/outputs
