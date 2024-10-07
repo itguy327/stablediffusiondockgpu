@@ -8,7 +8,7 @@ services:
       dockerfile: Dockerfile.gpu
     container_name: stablediff-gpu-runner
     environment:
-      TZ: "Asia/Jakarta"
+      TZ: "America/New_York"
       COMMANDLINE_ARGS: "--listen --lowvram"
     entrypoint: ["/bin/sh", "-c"]
     command: >
@@ -25,6 +25,6 @@ services:
     ports:
       - "7860:7860"
     volumes:
-      - C:/docker/stable-diffusion/stablediff-models:/stablediff-web/models/Stable-diffusion
-      - C:/docker/stable-diffusion/stablediff-web:/stablediff-web
-      - ./stablediff.env:/stablediff.env
+      - /home/stable-diffusion/stablediff-models:/stablediff-web/models/Stable-diffusion
+      - /home/stable-diffusion/stablediff-web:/stablediff-web
+      - /home/stable-diffusion/stablediff.env:/stablediff.env
