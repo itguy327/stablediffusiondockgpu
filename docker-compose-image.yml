@@ -1,5 +1,6 @@
 #CPKT Models
 #https://huggingface.co/stabilityai/stable-diffusion-2-1-base
+#https://github.com/AUTOMATIC1111/stable-diffusion-webui/wiki/Optimizations
 services:
   stablediff-cuda:
     image: stablediffusiondockgpu-stablediff-cuda:latest
